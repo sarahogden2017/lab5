@@ -48,13 +48,14 @@ for p in range(len(data_pages)):
         table_data[i] = table_data[i].split(' ')
         # Remove empty values and dashes
         table_data[i] = [e for e in table_data[i] if e and e != '–']
+        # Remerge country names
         for e in range(len(table_data[i])):
-            if table_data[i][e].isdigit() is True:
-                # This is a number, we could process it further if needed
-                pass
-            else:
-                # This is not a number, we might want to handle it differently
-                pass
+            if table_data[i][e] == '–' or table_data[i][e] == 0:
+                table_data[i][0:e] = [' '.join(table_data[i][0:e])]
+                break
+            elif table_data[i][e].isdigit() is True:
+                table_data[i][0:e] = [' '.join(table_data[i][0:e])]
+                break
 
     # Save the column headers from the first page
     if p == 0:
@@ -66,7 +67,7 @@ for p in range(len(data_pages)):
 # Flatten our list of lists into a single list
 table = list(chain(*table))
 
-# Remove the summary indicator table at the end of the main table
+
 
 # Find where the summary table begins
 index = table.index([])
